@@ -1,36 +1,25 @@
-import ThemeToggle from "@/components/ThemeToggle";
-import { getProfile, getProjects, getProjectTech, getTechnology, usedInText } from "@/lib/data";
+import { getProfile } from "@/lib/data";
+
+// Temporary: empty sections so you can test the nav links. Step 5 replaces this page.
+const sections = ["projects", "about", "experience", "skills", "contact"];
 
 export default function Home() {
   const profile = getProfile();
-  const projects = getProjects();
-  const docker = getTechnology("docker");
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-20">
-      <div className="mb-10 flex items-center justify-between">
-        <span className="font-mono text-xs text-muted">step 3 · data check</span>
-        <ThemeToggle />
-      </div>
+    <main className="mx-auto max-w-7xl px-6 md:px-12">
+      <section className="py-24">
+        <p className="font-mono text-xs text-muted">step 4 · nav check</p>
+        <h1 className="mt-4 font-display text-6xl font-bold leading-none">{profile.name}</h1>
+        <p className="mt-4 max-w-prose text-body">{profile.intro}</p>
+      </section>
 
-      <h1 className="font-display text-5xl font-bold">{profile.name}</h1>
-      <p className="mt-3 text-body">{profile.intro}</p>
-
-      <p className="mt-8 font-mono text-xs text-muted">
-        docker → {docker ? usedInText(docker) : "missing"}
-      </p>
-
-      <ul className="mt-6 space-y-3">
-        {projects.map((project) => (
-          <li key={project.slug} className="border border-rule bg-surface p-4">
-            <p className="font-display text-lg font-semibold">{project.title}</p>
-            <p className="text-sm text-body">{project.summary}</p>
-            <p className="mt-2 font-mono text-xs text-muted">
-              {getProjectTech(project).map((t) => t.name).join(" · ")}
-            </p>
-          </li>
-        ))}
-      </ul>
+      {sections.map((id) => (
+        <section key={id} id={id} className="min-h-[70vh] border-t border-rule py-16">
+          <h2 className="font-display text-3xl font-bold capitalize">{id}</h2>
+          <p className="mt-3 text-sm text-muted">Placeholder. The real content arrives in Steps 6 and 7.</p>
+        </section>
+      ))}
     </main>
   );
 }

@@ -114,3 +114,18 @@ body {
     animation: none;
   }
 }
+
+/* ---------- Scrolling ---------- */
+/* Nav links glide to their section instead of jumping */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+/* Stops the sticky nav bar from covering a section's heading after a jump */
+section[id] {
+  scroll-margin-top: 5rem;
+}

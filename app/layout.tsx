@@ -3,6 +3,9 @@ import type { ReactNode } from "react";
 import { Oswald, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import Providers from "./providers";
 import Background from "@/components/Background";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { getProfile } from "@/lib/data";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -30,6 +33,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const profile = getProfile();
+
   return (
     <html
       lang="en"
@@ -39,7 +44,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body className="min-h-screen font-sans antialiased">
         <Providers>
           <Background />
-          <div className="relative z-10">{children}</div>
+          <div id="top" className="relative z-10 flex min-h-screen flex-col">
+            <Navbar name={profile.name} role={profile.role} cvPath={profile.cvPath} />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
