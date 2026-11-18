@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 
 const links = [
-  { href: "/#projects", label: "Projects" },
-  { href: "/#about", label: "About" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/#contact", label: "Contact" },
+  { id: "projects", label: "Projects" },
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
 ];
 
 type NavbarProps = {
@@ -18,9 +19,59 @@ type NavbarProps = {
   cvPath: string;
 };
 
+/** Watches the Home sections and reports which one is in the middle of the screen. */
+function useSectionInView(enabled: boolean) {
+  const [inView, setInView] = useState<string | null>(null);
+  const visible = useRef(new Set<string>());
+
+  useEffect(() => {
+    if (!enabled) return;
+    const sections = links
+      .map((link) => document.getElementById(link.id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.current.add(entry.target.id);
+          else visible.current.delete(entry.target.id);
+        }
+        // The first section, in page order, that crosses the middle band of the screen
+        const current = links.find((link) => visible.current.has(link.id));
+        setInView(current ? current.id : null);
+      },
+      // Only a thin band in the middle of the screen counts as "here"
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    const seen = visible.current;
+    return () => {
+      observer.disconnect();
+      seen.clear();
+    };
+  }, [enabled]);
+
+  return enabled ? inView : null;
+}
+
 export default function Navbar({ name, role, cvPath }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+  const pathname = usePathname();
+  const sectionInView = useSectionInView(pathname === "/");
+
+  // On Home, highlight the section on screen. Elsewhere, highlight the section the page belongs to.
+  const active = pathname.startsWith("/projects/")
+    ? "projects"
+    : pathname.startsWith("/tech/")
+      ? "skills"
+      : sectionInView;
+
+  const linkClass = (id: string) =>
+    id === active
+      ? "border-b-2 border-accent pb-1 text-ink"
+      : "border-b-2 border-transparent pb-1 transition-colors hover:text-ink";
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-page/85 backdrop-blur-md">
@@ -35,8 +86,12 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
           <nav aria-label="Main" className="hidden md:block">
             <ul className="flex gap-7 text-sm text-muted">
               {links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="transition-colors hover:text-ink">
+                <li key={link.id}>
+                  <Link
+                    href={`/#${link.id}`}
+                    aria-current={link.id === active ? "true" : undefined}
+                    className={linkClass(link.id)}
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -89,8 +144,13 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
         <nav id="mobile-menu" aria-label="Mobile" className="border-t border-rule md:hidden">
           <ul className="flex flex-col px-6 py-2">
             {links.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} onClick={closeMenu} className="block py-3 text-ink">
+              <li key={link.id}>
+                <Link
+                  href={`/#${link.id}`}
+                  onClick={closeMenu}
+                  aria-current={link.id === active ? "true" : undefined}
+                  className={`block py-3 ${link.id === active ? "text-accent" : "text-ink"}`}
+                >
                   {link.label}
                 </Link>
               </li>

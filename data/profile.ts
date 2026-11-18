@@ -26,6 +26,7 @@ export const profile: Profile = {
   contact: {
     email: "SaxolaNqaba@gmail.com",
     github: "https://github.com/saxola-nqaba",
+    linkedin: "https://www.linkedin.com/in/saxola-nqaba-9a629820a",
   },
   cvPath: "/saxola-nqaba-cv.pdf",
 };

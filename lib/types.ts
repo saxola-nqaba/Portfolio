@@ -22,12 +22,13 @@ export type ProjectLinks = {
   live?: string;
 };
 
+/** Only the overview is required; the page shows whichever other sections are filled in. */
 export type CaseStudy = {
   overview: string;
-  challenge: string;
-  solution: string;
+  challenge?: string;
+  solution?: string;
   architecture?: string;
-  learned: string;
+  learned?: string;
   stats?: { value: string; label: string }[];
 };
 

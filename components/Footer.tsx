@@ -14,6 +14,11 @@ export default function Footer() {
           <a href={contact.github} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink">
             github
           </a>
+          {contact.linkedin && (
+            <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink">
+              linkedin
+            </a>
+          )}
           <a href="#top" className="transition-colors hover:text-ink">
             back to top ↑
           </a>

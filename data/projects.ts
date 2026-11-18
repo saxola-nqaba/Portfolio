@@ -48,6 +48,19 @@ export const projects: Project[] = [
     image: "/projects/smart-x.jpg",
     imageAlt: "Smart-X mesh topology map",
     links: { demo: "https://youtu.be/LpLknHxH7tc" },
+    caseStudy: {
+      overview: "A monitoring platform for a simulated farm of 40 ESP32 sensor nodes in a wireless mesh, built over three parts: sensor ingestion and telemetry, a real-time command stream, and network topology and mesh routing. An ASP.NET Core Minimal API runs the engine, and a WinForms client shows the live mesh.",
+      challenge: "A mesh has to keep working when nodes fail, and operators need to query a week of minute-by-minute history without waiting. Across 40 devices that's 403,200 readings, far too many to scan as a plain list.",
+      solution: "I modelled the mesh as a weighted graph and built its routing backbone with Prim's and Kruskal's algorithms, running on my own binary heap and union-find. Dijkstra finds the least-energy route to the gateway, and Tarjan's algorithm finds relay nodes whose failure would cut others off. A failure drill takes a node down, re-routes around it and reports what healed. Readings are stored in self-balancing AVL trees, one per sensor and metric, so a time-range query only visits a small part of each tree.",
+      architecture: "WinForms client → JSON over HTTP → ASP.NET Core Minimal API (.NET 10) → in-memory engine: graph, min-heap, union-find and a dictionary of AVL trees.",
+      learned: "Choosing a data structure is a measurable decision, not a guess. I benchmarked my AVL tree against a list, a sorted list, SortedDictionary and .NET's red-black SortedSet. AVL's stricter balancing gives shorter paths for range queries, which suits telemetry that's written once and read many times.",
+      stats: [
+        { value: "403,200", label: "historical readings" },
+        { value: "40", label: "mesh nodes" },
+        { value: "68", label: "automated tests" },
+        { value: "6", label: "graph algorithms" },
+      ],
+    },
   },
   {
     slug: "hustlehub",
@@ -63,6 +76,18 @@ export const projects: Project[] = [
     image: "/projects/hustlehub.jpg",
     imageAlt: "HustleHub+ gig search page",
     links: { demo: "https://youtu.be/gV5EHxqV2p4" },
+    caseStudy: {
+      overview: "A MERN freelance marketplace where freelancers list services and clients book them. Every booking creates a simulated payment, freelancers track their income, and a tax page estimates what they'll owe SARS. Built over three parts by a team of two.",
+      challenge: "Freelancers on the platform are paid with no tax deducted, so many don't know how much to set aside. The tax figures had to be correct, and readable by someone who isn't a tax expert.",
+      solution: "I built most of the React front end, including bookings with payment references and refunds, the income chart and the tax dashboard. The dashboard leads with the answer (how much tax, and how much to put away each month), then shows how it was worked out and when SARS must be paid. It only displays figures from the API, so the front end and the server can never disagree. I also set up SonarQube Cloud with a quality gate on every pull request.",
+      learned: "A quality gate changes how you write code. Fixing SonarQube's findings took the project from 5 vulnerabilities and 18 open issues to zero, and raised test coverage on new code from 70% to 100%.",
+      stats: [
+        { value: "281", label: "front-end tests I wrote" },
+        { value: "0", label: "open SonarQube issues" },
+        { value: "100%", label: "coverage on new code" },
+        { value: "2", label: "developers" },
+      ],
+    },
   },
   {
     slug: "peak",
@@ -78,6 +103,17 @@ export const projects: Project[] = [
     image: "/projects/peak.jpg",
     imageAlt: "Peak's explore, GPS tracking and profile screens",
     links: { demo: "https://youtu.be/GLt1aZqTnJE" },
+    caseStudy: {
+      overview: "An offline-friendly hiking app for South Africa: browse and bookmark trails, track hikes with GPS, see your hiking stats, write hike recaps, and use the app in English, isiZulu or isiXhosa. A Kotlin Android app with a Node.js and Express API on Firebase.",
+      challenge: "Trails often have no signal, so a hike recorded on the mountain must never be lost, and it has to reach the account once the phone is back online, even if the app was closed.",
+      solution: "I built GPS tracking as an Android foreground service and the offline mode: every hike is saved to a Room database first and marked as pending, and a WorkManager job uploads it as soon as there's a connection. Each hike carries an ID created on the phone, so a retried upload overwrites rather than duplicates. I also built the profile stats and their API endpoints, added isiZulu and isiXhosa, and wrote UI tests that run in CI.",
+      architecture: "Kotlin Android app (Room + WorkManager) → JWT over HTTPS → Node.js / Express API → Cloud Firestore.",
+      learned: "Translation is more than swapping words. To switch language instantly and offline, screens had to stop building finished sentences in code and ask for a string resource instead, and a unit test now checks that every string exists in all three languages.",
+      stats: [
+        { value: "3", label: "languages" },
+        { value: "2", label: "developers" },
+      ],
+    },
   },
   {
     slug: "glms",
@@ -93,6 +129,16 @@ export const projects: Project[] = [
     image: "/projects/glms.jpg",
     imageAlt: "GLMS dashboard",
     links: {},
+    caseStudy: {
+      overview: "A global logistics management system for freight contracts. Clients hold contracts of three types (international, domestic and priority), signed agreements are uploaded as PDFs, and invoices are worked out in rand from live exchange rates.",
+      challenge: "Each contract type has its own rules, and an invoice's cost is built up from optional extras. The system also had to grow from a single MVC app into a separate, secured API.",
+      solution: "I built contract, service-request and invoicing features with live USD to ZAR conversion, using the Factory, Decorator and Observer design patterns: the Factory creates each contract type with its own validation, and the Decorator adds surcharges such as fuel and insurance to an invoice. I then split the system into a JWT-secured Web API and an MVC front end, running together in Docker Compose.",
+      architecture: "ASP.NET Core MVC front end → JWT → ASP.NET Core Web API → Entity Framework Core → SQL Server, run with Docker Compose.",
+      stats: [
+        { value: "36", label: "xUnit tests" },
+        { value: "3", label: "contract types" },
+      ],
+    },
   },
   {
     slug: "coffeenchill",
@@ -108,6 +154,18 @@ export const projects: Project[] = [
     image: "/projects/coffeenchill.jpg",
     imageAlt: "CoffeeNChill system architecture diagram",
     links: { demo: "https://youtu.be/g4YuVPHI3Wo" },
+    caseStudy: {
+      overview: "A cloud ordering platform for a campus coffee shop, built over three parts by a team of four. Orders go through an ASP.NET Core API gateway, and a queue-triggered Azure Function moves each one through Received, Preparing, Ready and Collected. As the team's DevOps member, I took it to production on a Linux server.",
+      challenge: "The system had to run as one stack on a real server, with only the gateway exposed to the internet, secrets kept off GitHub, and every merge deployed without anyone logging in to the server.",
+      solution: "I deployed the stack with Docker Compose to an Ubuntu Server virtual machine on Azure, behind two firewall layers, with secrets kept only on the server. I built the CI/CD pipeline on a self-hosted GitHub Actions runner: failing tests block pull requests, and each merge builds versioned Docker images, redeploys the server and waits for a health check. I also built the staff documents feature, with upload checks on size, type, file signature and names, and one error-handling layer so users never see a stack trace.",
+      architecture: "Client → ASP.NET Core API gateway (JWT and roles) → Azurite storage (tables, queue, blobs) ← Azure Functions queue trigger, all in Docker Compose on an Ubuntu VM.",
+      learned: "Running the CI runner on the server itself solved two problems at once: it used none of our exhausted GitHub Actions minutes, and the deploy job could run Docker directly, so no SSH key had to be stored in GitHub.",
+      stats: [
+        { value: "92", label: "API tests passing on the live server" },
+        { value: "3", label: "Docker images" },
+        { value: "4", label: "developers" },
+      ],
+    },
   },
   {
     slug: "studytrack",
@@ -123,6 +181,16 @@ export const projects: Project[] = [
     image: "/projects/studytrack.jpg",
     imageAlt: "StudyTrack's marks, goals and insights screens",
     links: {},
+    caseStudy: {
+      overview: "A mobile app that tracks marks, goals and deadlines, and tells students exactly what they need on their remaining assessments to reach their target. I designed it as a high-fidelity prototype for my Interaction Design module, then built it as a personal project.",
+      challenge: "Students usually work out weighted averages by hand and guess whether a goal is still possible. The app had to do that maths correctly from raw marks, including modules where not every assessment has been entered yet.",
+      solution: "All calculations run on the device from the raw assessment data, with nothing cached in the database: the weighted average, the score still needed, and a status for every goal, from On Track to Impossible. It's built with React Native, Expo and TypeScript, with Firebase for data and Zustand for state.",
+      learned: "Designing the prototype first paid off. Applying Nielsen's heuristics, and pairing every status colour with a text label, made the app clearer and meant colour was never the only signal.",
+      stats: [
+        { value: "4", label: "main screens" },
+        { value: "2", label: "themes: light and dark" },
+      ],
+    },
   },
   {
     slug: "eventease",
@@ -138,6 +206,11 @@ export const projects: Project[] = [
     image: "/projects/eventease.jpg",
     imageAlt: "EventEase venues page",
     links: {},
+    caseStudy: {
+      overview: "A venue booking platform where staff manage venues, events and bookings, with venue images stored in the cloud and the app running on Azure.",
+      challenge: "A venue can't be booked twice for the same time, and records that other records depend on can't simply disappear.",
+      solution: "I built the CRUD features with double-booking prevention and rules that stop a venue or event being deleted while bookings depend on it, plus search and filters for bookings by event type, venue and date. Images go to Azure Blob Storage, and I moved the database from SQL LocalDB to Azure SQL and deployed the app to Azure App Service.",
+    },
   },
   {
     slug: "betterbudget",
@@ -153,6 +226,11 @@ export const projects: Project[] = [
     image: "/projects/betterbudget.jpg",
     imageAlt: "BetterBudget's expenses, overspend warning and insights screens",
     links: {},
+    caseStudy: {
+      overview: "A personal budget tracker for Android, built by a team of four. Users log expenses with receipt photos, organise them into categories, and set monthly minimum and maximum spending goals.",
+      challenge: "Overspending warnings are useful until a planned, one-off purchase sets them off, and then users start ignoring them.",
+      solution: "I led the move of the categories data to Firebase, since categories link expenses, goals and subcategories together, and contributed to the wider migration. I owned the Expenses section: the layouts, the Firebase connection, and displaying, filtering and sorting expenses. I also built Snooze Goals, which lets users pause overspending warnings for planned costs, with the snooze stored in Firebase and reset automatically.",
+    },
   },
   {
     slug: "cyberguard",
@@ -168,5 +246,9 @@ export const projects: Project[] = [
     image: "/projects/cyberguard.jpg",
     imageAlt: "CyberGuard chat screen",
     links: {},
+    caseStudy: {
+      overview: "A desktop chatbot that teaches people about staying safe online, written for a Department of Cybersecurity awareness campaign brief. It covers phishing, passwords, privacy, Wi-Fi, multi-factor authentication and more.",
+      solution: "The bot recognises keywords and detects sentiment, so a worried or frustrated user gets a more reassuring answer, and it varies its replies so conversations don't feel scripted. It also has a cybersecurity quiz, a task and reminder list stored in MySQL, and an activity log. A GitHub Actions pipeline builds it automatically.",
+    },
   },
 ];
