@@ -32,10 +32,11 @@ export default function Hero() {
           </Link>
           <a
             href={profile.cvPath}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className="border border-rule px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
           >
-            Download CV
+            View CV<span className="sr-only"> (opens in a new tab)</span>
           </a>
           <Link
             href="#contact"

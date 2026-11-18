@@ -248,3 +248,47 @@ section[id] {
 [data-project-glow="on"] .bg-glow-project {
   opacity: calc(var(--glow-opacity) * 1.1);
 }
+
+/* ---------- Skill tags ---------- */
+.skill-tag {
+  position: relative;
+  display: inline-block;
+  padding: 7px 12px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 12.5px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.skill-tag:hover,
+.skill-tag:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.skill-tag:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* Opens above the tag, like the periodic table */
+.skill-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: max-content;
+  max-width: min(260px, 70vw);
+  padding: 7px 10px;
+  background: var(--page);
+  border: 1px solid var(--accent);
+  color: var(--ink);
+  font-family: var(--font-plex-sans), sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 10;
+}
+.skill-tag:hover .skill-tip,
+.skill-tag:focus-visible .skill-tip {
+  opacity: 1;
+}

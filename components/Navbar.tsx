@@ -61,10 +61,11 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
 
           <a
             href={cvPath}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className="ml-2 hidden border border-rule px-4 py-2.5 font-mono text-xs transition-colors hover:border-accent hover:text-accent sm:inline-block"
           >
-            resume.pdf
+            resume.pdf<span className="sr-only"> (opens in a new tab)</span>
           </a>
 
           {/* Menu button, phones only */}
@@ -95,8 +96,8 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
               </li>
             ))}
             <li>
-              <a href={cvPath} download className="block py-3 font-mono text-sm text-accent">
-                resume.pdf
+              <a href={cvPath} target="_blank" rel="noopener noreferrer" className="block py-3 font-mono text-sm text-accent">
+                resume.pdf<span className="sr-only"> (opens in a new tab)</span>
               </a>
             </li>
           </ul>
