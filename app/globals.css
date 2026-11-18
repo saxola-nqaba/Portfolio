@@ -180,7 +180,7 @@ section[id] {
 }
 .pt-tip {
   position: absolute;
-  top: calc(100% + 6px);
+  bottom: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
   width: max-content;
@@ -231,4 +231,20 @@ section[id] {
     animation: none;
     opacity: 1;
   }
+}
+
+/* ---------- Project glow ---------- */
+/* A third glow that takes on the colour of the project card being hovered */
+.bg-glow-project {
+  width: 900px;
+  height: 560px;
+  left: 50%;
+  top: 35%;
+  margin-left: -450px;
+  background: var(--project-glow, var(--glow));
+  opacity: 0;
+  transition: opacity 0.6s ease, background-color 0.6s ease;
+}
+[data-project-glow="on"] .bg-glow-project {
+  opacity: calc(var(--glow-opacity) * 1.1);
 }

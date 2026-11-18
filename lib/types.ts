@@ -46,6 +46,8 @@ export type Project = {
   highlight: string;
   /** Technology ids from data/technologies.ts. */
   tech: string[];
+  /** Colour the background glow turns when this project's card is hovered. */
+  color: string;
   image: string;
   imageAlt: string;
   gallery?: { src: string; alt: string; caption: string }[];

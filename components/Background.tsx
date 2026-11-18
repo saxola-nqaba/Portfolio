@@ -3,6 +3,7 @@ export default function Background() {
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div className="bg-glow bg-glow-a" />
       <div className="bg-glow bg-glow-b" />
+      <div className="bg-glow bg-glow-project" />
       <svg className="bg-grain" xmlns="http://www.w3.org/2000/svg">
         <filter id="grain-noise">
           <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} stitchTiles="stitch" />
