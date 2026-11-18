@@ -5,6 +5,7 @@ import Providers from "./providers";
 import Background from "@/components/Background";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NavigationTracker from "@/components/NavigationTracker";
 import { getProfile } from "@/lib/data";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     >
       <body className="min-h-screen font-sans antialiased">
         <Providers>
+          <NavigationTracker />
           <Background />
           <div id="top" className="relative z-10 flex min-h-screen flex-col">
             <Navbar name={profile.name} role={profile.role} cvPath={profile.cvPath} />

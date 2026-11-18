@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import BackLink from "@/components/BackLink";
 import { notFound } from "next/navigation";
 import { getProject, getProjects, getProjectTech, getProjectsUsing, usedInText } from "@/lib/data";
 
@@ -53,9 +54,7 @@ export default async function ProjectPage({ params }: PageProps) {
     <main className="mx-auto max-w-7xl px-6 md:px-12">
       {/* Title */}
       <section className="border-b border-rule pb-8 pt-10">
-        <Link href="/#projects" className="font-mono text-xs text-muted transition-colors hover:text-ink">
-          ← all projects
-        </Link>
+        <BackLink fallback="/#projects" />
         <p className="mb-4 mt-6 inline-block border border-accent px-2.5 py-0.5 font-mono text-xs text-accent">
           {project.kind} · {team}
         </p>

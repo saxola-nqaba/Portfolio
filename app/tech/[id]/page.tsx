@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BackLink from "@/components/BackLink";
 import { notFound } from "next/navigation";
 import ProjectCard from "@/components/ProjectCard";
 import { toCardData } from "@/lib/cards";
@@ -45,9 +46,7 @@ export default async function TechPage({ params }: PageProps) {
   return (
     <main className="mx-auto max-w-7xl px-6 md:px-12">
       <section className="pb-6 pt-10">
-        <Link href="/#skills" className="font-mono text-xs text-muted transition-colors hover:text-ink">
-          ← all skills
-        </Link>
+        <BackLink fallback="/#skills" />
         <p className="mb-4 mt-6 inline-block border border-accent px-2.5 py-0.5 font-mono text-xs text-accent">
           technology · {categoryLabels[tech.category].toLowerCase()}
         </p>
