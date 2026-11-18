@@ -1,37 +1,36 @@
 import ThemeToggle from "@/components/ThemeToggle";
+import { getProfile, getProjects, getProjectTech, getTechnology, usedInText } from "@/lib/data";
 
 export default function Home() {
+  const profile = getProfile();
+  const projects = getProjects();
+  const docker = getTechnology("docker");
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-20">
       <div className="mb-10 flex items-center justify-between">
-        <span className="font-mono text-xs text-muted">step 2 · design system check</span>
+        <span className="font-mono text-xs text-muted">step 3 · data check</span>
         <ThemeToggle />
       </div>
 
-      <p className="font-mono text-sm text-muted">hi, i&apos;m</p>
-      <h1 className="font-display text-6xl font-bold leading-none">Saxola Nqaba</h1>
-      <p className="mt-4 font-display text-xl font-medium text-accent">
-        Application developer · full-stack, cloud &amp; DevOps
-      </p>
-      <p className="mt-5 max-w-prose leading-relaxed text-body">
-        I build web, mobile and cloud applications end to end, and ship them with Docker,
-        CI/CD pipelines and Azure.
+      <h1 className="font-display text-5xl font-bold">{profile.name}</h1>
+      <p className="mt-3 text-body">{profile.intro}</p>
+
+      <p className="mt-8 font-mono text-xs text-muted">
+        docker → {docker ? usedInText(docker) : "missing"}
       </p>
 
-      <div className="mt-8 flex flex-wrap gap-3">
-        <a href="#" className="bg-accent px-5 py-3 text-sm font-semibold text-on-accent">
-          View projects
-        </a>
-        <a href="#" className="border border-rule px-5 py-3 text-sm">
-          Download CV
-        </a>
-      </div>
-
-      <div className="mt-12 border border-rule bg-surface p-6">
-        <p className="font-mono text-xs text-muted">surface card</p>
-        <p className="mt-2 font-display text-lg font-semibold">The Loop</p>
-        <p className="mt-1 text-sm text-body">Offline-first outreach platform.</p>
-      </div>
+      <ul className="mt-6 space-y-3">
+        {projects.map((project) => (
+          <li key={project.slug} className="border border-rule bg-surface p-4">
+            <p className="font-display text-lg font-semibold">{project.title}</p>
+            <p className="text-sm text-body">{project.summary}</p>
+            <p className="mt-2 font-mono text-xs text-muted">
+              {getProjectTech(project).map((t) => t.name).join(" · ")}
+            </p>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
