@@ -69,3 +69,18 @@ export function getTechByCategory() {
     items: technologies.filter((t) => t.category === category),
   }));
 }
+
+/** Technologies most often used in the same projects as this one, most frequent first. */
+export function getRelatedTech(techId: string, limit = 8): Technology[] {
+  const counts = new Map<string, number>();
+  for (const project of getProjectsUsing(techId)) {
+    for (const id of project.tech) {
+      if (id !== techId) counts.set(id, (counts.get(id) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([id]) => getTechnology(id))
+    .filter((t): t is Technology => t !== undefined);
+}

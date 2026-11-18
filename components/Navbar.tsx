@@ -77,7 +77,8 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
     <header className="sticky top-0 z-40 border-b border-rule bg-page/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 md:px-12">
         <div className="flex items-center gap-10">
-          <Link href="/" onClick={closeMenu} className="block">
+          {/* Points at the top of Home, so it also scrolls up when you are already on Home */}
+          <Link href="/#top" onClick={closeMenu} className="block">
             <span className="block font-display text-xl font-semibold tracking-wide">{name}</span>
             <span className="hidden text-xs text-muted sm:block">{role}</span>
           </Link>

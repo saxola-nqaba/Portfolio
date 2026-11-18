@@ -123,7 +123,7 @@ export const projects: Project[] = [
     teamSize: 1,
     role: "Solo: the whole build.",
     summary: "Logistics system split into a JWT-secured Web API.",
-    highlight: "Factory, Decorator and Observer patterns",
+    highlight: "Factory, Observer and Decorator patterns",
     tech: ["csharp", "aspnet-core", "ef-core", "sql-server", "sql", "jwt", "docker", "xunit", "html-css"],
     color: "#c9a227",
     image: "/projects/glms.jpg",
@@ -132,10 +132,11 @@ export const projects: Project[] = [
     caseStudy: {
       overview: "A global logistics management system for freight contracts. Clients hold contracts of three types (international, domestic and priority), signed agreements are uploaded as PDFs, and invoices are worked out in rand from live exchange rates.",
       challenge: "Each contract type has its own rules, and an invoice's cost is built up from optional extras. The system also had to grow from a single MVC app into a separate, secured API.",
-      solution: "I built contract, service-request and invoicing features with live USD to ZAR conversion, using the Factory, Decorator and Observer design patterns: the Factory creates each contract type with its own validation, and the Decorator adds surcharges such as fuel and insurance to an invoice. I then split the system into a JWT-secured Web API and an MVC front end, running together in Docker Compose.",
+      solution: "I built contract, service-request and invoicing features with live USD to ZAR conversion, using three classic design patterns. Factories create each contract type with its own validation rules; an Observer notifies the invoice, schedule, compliance and notification handlers whenever a contract's status changes; and Decorators layer fuel surcharges, customs duty and insurance onto an invoice. A repository-style service layer keeps all database access in one place. I then split the system into a JWT-secured Web API and an MVC front end, running together in Docker Compose.",
       architecture: "ASP.NET Core MVC front end → JWT → ASP.NET Core Web API → Entity Framework Core → SQL Server, run with Docker Compose.",
       stats: [
         { value: "36", label: "xUnit tests" },
+        { value: "4", label: "design patterns" },
         { value: "3", label: "contract types" },
       ],
     },
