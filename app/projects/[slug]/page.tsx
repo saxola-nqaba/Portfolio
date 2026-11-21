@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const project = getProject(slug);
   if (!project) return {};
   return {
-    title: `${project.title} | Saxola Nqaba`,
+    title: project.title,
     description: project.tagline,
   };
 }

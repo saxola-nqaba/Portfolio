@@ -1,0 +1,1 @@
+Saxola Nqaba, Application Developer. Portfolio card with his name, role and a few periodic-table tiles for C#, TypeScript, Kotlin, React, Azure and Docker.

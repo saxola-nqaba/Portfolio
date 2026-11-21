@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import ThemeToggle from "./ThemeToggle";
 
 const links = [
@@ -68,6 +69,31 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
       ? "skills"
       : sectionInView;
 
+  /**
+   * Handles a click on the name or a section link.
+   * - On another page: do nothing special, so Link opens Home at that section.
+   * - On Home: Link ignores a URL it is already on, so scroll ourselves.
+   *   This makes every click work, even twice in a row.
+   */
+  const goTo = (id: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    closeMenu();
+    if (pathname !== "/") return;
+    // Let Ctrl/Cmd/Shift-click still open a new tab or window
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+
+    // Wait one frame so the phone menu has closed before measuring where to scroll
+    requestAnimationFrame(() => {
+      if (id === "top") {
+        window.scrollTo({ top: 0 });
+        window.history.replaceState(null, "", "/");
+      } else {
+        document.getElementById(id)?.scrollIntoView();
+        window.history.replaceState(null, "", `/#${id}`);
+      }
+    });
+  };
+
   const linkClass = (id: string) =>
     id === active
       ? "border-b-2 border-accent pb-1 text-ink"
@@ -77,8 +103,8 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
     <header className="sticky top-0 z-40 border-b border-rule bg-page/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 md:px-12">
         <div className="flex items-center gap-10">
-          {/* Points at the top of Home, so it also scrolls up when you are already on Home */}
-          <Link href="/#top" onClick={closeMenu} className="block">
+          {/* The name is the Home link: from anywhere, it goes to the top of Home */}
+          <Link href="/#top" onClick={goTo("top")} className="block">
             <span className="block font-display text-xl font-semibold tracking-wide">{name}</span>
             <span className="hidden text-xs text-muted sm:block">{role}</span>
           </Link>
@@ -90,6 +116,7 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
                 <li key={link.id}>
                   <Link
                     href={`/#${link.id}`}
+                    onClick={goTo(link.id)}
                     aria-current={link.id === active ? "true" : undefined}
                     className={linkClass(link.id)}
                   >
@@ -148,7 +175,7 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
               <li key={link.id}>
                 <Link
                   href={`/#${link.id}`}
-                  onClick={closeMenu}
+                  onClick={goTo(link.id)}
                   aria-current={link.id === active ? "true" : undefined}
                   className={`block py-3 ${link.id === active ? "text-accent" : "text-ink"}`}
                 >

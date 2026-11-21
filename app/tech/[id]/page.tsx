@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const tech = getTechnology(id);
   if (!tech) return {};
   return {
-    title: `${tech.name} | Saxola Nqaba`,
+    title: tech.name,
     description: `Projects where Saxola Nqaba used ${tech.name}.`,
   };
 }

@@ -27,16 +27,17 @@ const legend: { category: TechCategory; label: string }[] = [
 
 export default function PeriodicTable() {
   // Work out each tile's details once, before drawing anything.
-  let elementNumber = 0;
   const cells = layout.map((id, index) => {
     if (!id) return null;
     const tech = getTechnology(id);
     if (!tech) throw new Error(`Unknown technology "${id}" in the periodic table`);
-    elementNumber += 1;
+    // Element number = how many real tiles come up to and including this one (gaps skipped).
+    // Worked out fresh for each tile, so nothing is changed during render.
+    const number = layout.slice(0, index + 1).filter(Boolean).length;
     const column = index % COLUMNS;
     return {
       tech,
-      number: elementNumber,
+      number,
       count: getProjectsUsing(id).length,
       tooltip: usedInText(tech),
       tipSide: column === 0 ? "pt-tip-left" : column === COLUMNS - 1 ? "pt-tip-right" : "",

@@ -292,3 +292,29 @@ section[id] {
 .skill-tag:focus-visible .skill-tip {
   opacity: 1;
 }
+
+/* ---------- Step 11: polish ---------- */
+
+/* One consistent keyboard focus ring everywhere */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Phones have no hover: tapping a plain skill tag focuses it, so show its tip */
+span.skill-tag:focus .skill-tip {
+  opacity: 1;
+}
+
+/* Text selection in the accent colour */
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Stop sideways scrolling. Hidden tooltips near the right edge used to stretch the page.
+   "clip" (not "hidden") keeps the sticky navbar working. */
+html,
+body {
+  overflow-x: clip;
+}

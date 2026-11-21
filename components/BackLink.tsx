@@ -22,7 +22,8 @@ export default function BackLink({ fallback }: BackLinkProps) {
           router.back();
         }
       }}
-      className="font-mono text-xs text-muted transition-colors hover:text-ink"
+      // "block w-fit" puts it on its own line, so the label below doesn't sit right against it
+      className="block w-fit font-mono text-xs text-muted transition-colors hover:text-ink"
     >
       ← back
     </Link>

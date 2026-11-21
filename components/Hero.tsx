@@ -1,4 +1,3 @@
-import Link from "next/link";
 import PeriodicTable from "./PeriodicTable";
 import { getProfile } from "@/lib/data";
 
@@ -23,13 +22,14 @@ export default function Hero() {
           {profile.availability.toLowerCase()} · {profile.location.toLowerCase()}
         </p>
 
-        <div className="mt-7 flex flex-wrap gap-3">
-          <Link
+        {/* Plain <a> tags: these jump within the page, and browsers re-scroll on every click */}
+      <div className="mt-7 flex flex-wrap gap-3">
+          <a
             href="#projects"
             className="bg-accent px-5 py-3 text-sm font-semibold text-on-accent transition-opacity hover:opacity-90"
           >
             View projects
-          </Link>
+          </a>
           <a
             href={profile.cvPath}
             target="_blank"
@@ -38,12 +38,12 @@ export default function Hero() {
           >
             View CV<span className="sr-only"> (opens in a new tab)</span>
           </a>
-          <Link
+          <a
             href="#contact"
             className="border border-rule px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
           >
             Contact me
-          </Link>
+          </a>
         </div>
       </div>
 

@@ -11,21 +11,28 @@ export function notePopState() {
   poppedTo = window.location.pathname;
 }
 
-/** Called every time the page (not just the #section) changes. */
-export function notePath(path: string) {
+/**
+ * Called every time the page (not just the #section) changes.
+ * Returns how we got here: "first" visit, "back" (browser back/forward) or "link".
+ */
+export function notePath(path: string): "first" | "same" | "back" | "link" {
   if (lastPath === null) {
     lastPath = path; // the page the visitor arrived on
-    return;
+    return "first";
   }
-  if (path === lastPath) return;
+  if (path === lastPath) return "same";
 
+  let how: "back" | "link";
   if (poppedTo === path) {
     depth = Math.max(0, depth - 1); // went back
     poppedTo = null;
+    how = "back";
   } else {
     depth += 1; // followed a link
+    how = "link";
   }
   lastPath = path;
+  return how;
 }
 
 /** True when there's a page on this site to go back to. */

@@ -4,7 +4,7 @@ import SearchClient from "@/components/SearchClient";
 import { buildSearchIndex } from "@/lib/search";
 
 export const metadata: Metadata = {
-  title: "Search | Saxola Nqaba",
+  title: "Search",
   description: "Search Saxola Nqaba's projects, skills and experience.",
 };
 
