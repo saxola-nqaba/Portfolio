@@ -15,7 +15,7 @@ export default function TooltipFit() {
   useEffect(() => {
     const fit = (event: Event) => {
       const target = event.target as HTMLElement | null;
-      const owner = target?.closest?.(".skill-tag, .pt-tile");
+      const owner = target?.closest?.(".skill-tag, .pt-tile, .has-tip");
       const tip = owner?.querySelector<HTMLElement>(".skill-tip, .pt-tip");
       if (!tip) return;
 

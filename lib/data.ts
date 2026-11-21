@@ -26,7 +26,7 @@ export function getProjects(): Project[] {
 }
 
 export function getProject(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug);
+  return getProjects().find((p) => p.slug === slug);
 }
 
 export function getTechnologies(): Technology[] {
@@ -48,7 +48,7 @@ export function getProjectTech(project: Project): Technology[] {
 
 /** Every project that used a technology. */
 export function getProjectsUsing(techId: string): Project[] {
-  return projects.filter((p) => p.tech.includes(techId));
+  return getProjects().filter((p) => p.tech.includes(techId));
 }
 
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;

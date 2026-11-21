@@ -333,3 +333,12 @@ body {
   bottom: auto;
   top: calc(100% + 6px);
 }
+
+/* Filter buttons reuse the skill tooltip: shown on hover or keyboard focus */
+.has-tip {
+  position: relative;
+}
+.has-tip:hover .skill-tip,
+.has-tip:focus-visible .skill-tip {
+  opacity: 1;
+}
