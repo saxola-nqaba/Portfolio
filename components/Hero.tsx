@@ -7,11 +7,11 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-name"
-      className="grid items-start gap-14 py-16 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]"
+      className="grid items-start gap-14 pt-10 pb-16 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]"
     >
       <div>
         <p className="mb-3 font-mono text-sm text-muted">hi, i&apos;m</p>
-        <h1 id="hero-name" className="font-display text-6xl font-bold leading-none sm:text-7xl">
+        <h1 id="hero-name" className="font-display text-6xl font-semibold leading-none tracking-[0.01em] sm:text-[4.1rem]">
           {profile.name}
         </h1>
         <p className="mt-4 font-display text-xl font-medium text-accent sm:text-2xl">{profile.role}</p>

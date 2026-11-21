@@ -5,7 +5,7 @@ export default function ExperienceSection() {
   const jobs = getExperience();
 
   return (
-    <section id="experience" aria-labelledby="experience-heading" className="border-t border-rule py-16">
+    <section id="experience" aria-labelledby="experience-heading" className="border-t border-rule py-20 md:py-24">
       <SectionHeading id="experience-heading" label="experience" title="Where I've worked" />
 
       {/* The left border is the timeline line; each dot sits on it */}

@@ -17,7 +17,7 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="border-t border-rule py-16">
+    <section id="contact" aria-labelledby="contact-heading" className="border-t border-rule py-20 md:py-24">
       <SectionHeading
         id="contact-heading"
         label="contact"
@@ -31,7 +31,7 @@ export default function ContactSection() {
             <a
               href={item.href}
               {...(item.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="block h-full border border-rule bg-surface p-5 transition duration-150 hover:-translate-y-0.5 hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="block h-full border border-rule bg-surface p-5 transition-colors duration-200 hover:border-accent/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <span className="mb-1.5 block font-mono text-[11px] text-muted">{item.label}</span>
               <span className="block break-words text-sm">{item.value}</span>

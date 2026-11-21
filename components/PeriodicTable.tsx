@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { getProjectsUsing, getTechnology, usedInText } from "@/lib/data";
 import type { TechCategory } from "@/lib/types";
+import UsedIn from "./UsedIn";
 
 const COLUMNS = 6;
 
@@ -79,7 +80,7 @@ export default function PeriodicTable() {
                 <span className="pt-symbol">{tech.symbol}</span>
                 <span className="truncate text-[10px] text-body">{tech.name}</span>
                 <span className={`pt-tip ${cell.tipSide}`} aria-hidden="true">
-                  {cell.tooltip}
+                  <UsedIn tech={tech} />
                 </span>
               </Link>
             </li>

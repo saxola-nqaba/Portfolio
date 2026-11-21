@@ -41,7 +41,7 @@ export default function ProjectCard({ project }: { project: ProjectCardData }) {
       onFocus={() => setProjectGlow(project.color)}
       onBlur={() => setProjectGlow(null)}
       onClick={() => setProjectGlow(null)}
-      className="group block h-full border border-rule bg-surface transition duration-150 hover:-translate-y-0.5 hover:border-accent focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="group block h-full border border-rule bg-surface transition-colors duration-200 hover:border-accent/50 focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <div className="relative aspect-video overflow-hidden border-b border-rule bg-white">
         <Image

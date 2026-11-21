@@ -9,7 +9,7 @@ export default function AboutSection() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="grid gap-12 border-t border-rule py-16 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
+      className="grid gap-12 border-t border-rule py-20 md:py-24 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]"
     >
       <div>
         <SectionHeading id="about-heading" label="about" title={`Hi, I'm ${firstName}.`} />

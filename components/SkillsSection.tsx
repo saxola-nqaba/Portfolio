@@ -1,12 +1,13 @@
 import Link from "next/link";
 import SectionHeading from "./SectionHeading";
+import UsedIn from "./UsedIn";
 import { getProjectsUsing, getTechByCategory, usedInText } from "@/lib/data";
 
 export default function SkillsSection() {
   const groups = getTechByCategory();
 
   return (
-    <section id="skills" aria-labelledby="skills-heading" className="border-t border-rule py-16">
+    <section id="skills" aria-labelledby="skills-heading" className="border-t border-rule py-20 md:py-24">
       <SectionHeading
         id="skills-heading"
         label="skills"
@@ -29,7 +30,7 @@ export default function SkillsSection() {
                     {tip && (
                       <span className="skill-tip">
                         <span className="sr-only">, </span>
-                        {tip}
+                        <UsedIn tech={tech} />
                       </span>
                     )}
                   </>

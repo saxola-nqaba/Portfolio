@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BackLink from "@/components/BackLink";
+import UsedIn from "@/components/UsedIn";
 import { notFound } from "next/navigation";
 import ProjectCard from "@/components/ProjectCard";
 import { toCardData } from "@/lib/cards";
@@ -10,7 +11,6 @@ import {
   getRelatedTech,
   getTechnologies,
   getTechnology,
-  usedInText,
 } from "@/lib/data";
 
 type PageProps = {
@@ -47,10 +47,10 @@ export default async function TechPage({ params }: PageProps) {
     <main className="mx-auto max-w-7xl px-6 md:px-12">
       <section className="pb-6 pt-10">
         <BackLink fallback="/#skills" />
-        <p className="mb-4 mt-6 inline-block border border-accent px-2.5 py-0.5 font-mono text-xs text-accent">
+        <p className="mb-4 mt-6 inline-block border border-rule px-2.5 py-0.5 font-mono text-xs text-muted">
           technology · {categoryLabels[tech.category].toLowerCase()}
         </p>
-        <h1 className="font-display text-5xl font-bold leading-none">{tech.name}</h1>
+        <h1 className="font-display text-5xl font-semibold leading-none tracking-[0.01em]">{tech.name}</h1>
       </section>
 
       <div className="grid gap-12 pb-16 pt-4 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
@@ -80,7 +80,7 @@ export default async function TechPage({ params }: PageProps) {
                     {other.name.toLowerCase()}
                     <span className="skill-tip">
                       <span className="sr-only">, </span>
-                      {usedInText(other)}
+                      <UsedIn tech={other} />
                     </span>
                   </Link>
                 </li>

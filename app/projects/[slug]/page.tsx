@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import BackLink from "@/components/BackLink";
+import UsedIn from "@/components/UsedIn";
 import { notFound } from "next/navigation";
-import { getProject, getProjects, getProjectTech, getProjectsUsing, usedInText } from "@/lib/data";
+import { getProject, getProjects, getProjectTech, getProjectsUsing } from "@/lib/data";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -55,10 +56,10 @@ export default async function ProjectPage({ params }: PageProps) {
       {/* Title */}
       <section className="border-b border-rule pb-8 pt-10">
         <BackLink fallback="/#projects" />
-        <p className="mb-4 mt-6 inline-block border border-accent px-2.5 py-0.5 font-mono text-xs text-accent">
+        <p className="mb-4 mt-6 inline-block border border-rule px-2.5 py-0.5 font-mono text-xs text-muted">
           {project.kind} · {team}
         </p>
-        <h1 className="font-display text-5xl font-bold leading-none sm:text-6xl">{project.title}</h1>
+        <h1 className="font-display text-5xl font-semibold leading-none tracking-[0.01em] sm:text-[3.5rem]">{project.title}</h1>
         <p className="mt-3 text-muted">{project.tagline}</p>
 
         {buttons.length > 0 && (
@@ -129,13 +130,12 @@ export default async function ProjectPage({ params }: PageProps) {
             <h2 className="mb-3 font-mono text-xs font-normal text-muted">tech stack</h2>
             <ul className="flex flex-wrap gap-2">
               {tech.map((t) => {
-                const tip = usedInText(t, project.slug);
                 const content = (
                   <>
                     {t.name.toLowerCase()}
                     <span className="skill-tip">
                       <span className="sr-only">, </span>
-                      {tip}
+                      <UsedIn tech={t} excludeSlug={project.slug} />
                     </span>
                   </>
                 );
@@ -162,7 +162,7 @@ export default async function ProjectPage({ params }: PageProps) {
               <dl className="grid grid-cols-2 gap-4">
                 {study.stats.map((stat) => (
                   <div key={stat.label}>
-                    <dd className="font-display text-2xl font-bold">{stat.value}</dd>
+                    <dd className="font-display text-2xl font-semibold">{stat.value}</dd>
                     <dt className="text-xs text-muted">{stat.label}</dt>
                   </div>
                 ))}

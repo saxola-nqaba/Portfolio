@@ -5,7 +5,7 @@ import {
   getProjectTech,
   getProjectsUsing,
   getTechnologies,
-  usedInText,
+  usedInSummary,
 } from "@/lib/data";
 
 export type SearchProject = {
@@ -63,7 +63,7 @@ export function buildSearchIndex(): SearchIndex {
     skills: getTechnologies().map((t) => ({
       id: t.id,
       name: t.name,
-      detail: usedInText(t),
+      detail: usedInSummary(t),
       hasPage: getProjectsUsing(t.id).length > 0,
       text: join(t.name, t.symbol ?? "", categoryLabels[t.category], t.source ?? ""),
     })),

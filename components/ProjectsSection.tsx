@@ -58,11 +58,11 @@ export default function ProjectsSection({ projects }: { projects: ProjectCardDat
   };
 
   return (
-    <section id="projects" aria-labelledby="projects-heading" className="border-t border-rule py-16">
-      <p className="mb-4 inline-block border border-accent px-2.5 py-0.5 font-mono text-xs text-accent">
+    <section id="projects" aria-labelledby="projects-heading" className="border-t border-rule py-20 md:py-24">
+      <p className="mb-4 inline-block border border-rule px-2.5 py-0.5 font-mono text-xs text-muted">
         projects
       </p>
-      <h2 id="projects-heading" className="font-display text-3xl font-bold sm:text-4xl">
+      <h2 id="projects-heading" className="font-display text-3xl font-semibold tracking-[0.01em] sm:text-4xl">
         Now Showing
       </h2>
 

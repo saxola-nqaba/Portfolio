@@ -51,14 +51,45 @@ export function getProjectsUsing(techId: string): Project[] {
   return projects.filter((p) => p.tech.includes(techId));
 }
 
-/** Tooltip text: "used in: The Loop, HustleHub+", or the skill's source. */
-export function usedInText(tech: Technology, excludeSlug?: string): string {
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+
+/**
+ * What a skill's tooltip says. Each project comes with its tagline, so a first-time
+ * visitor knows what "GLMS" or "StudyTrack" is:
+ *   heading:  "Used in 2 projects:"
+ *   projects: [{ title: "GLMS", tagline: "Global logistics management system" }, ...]
+ * On a project page (excludeSlug) it lists the *other* projects instead.
+ * Skills with no project show where they come from (e.g. "From: MCSA certification").
+ */
+export function usedInDetails(tech: Technology, excludeSlug?: string) {
   const others = getProjectsUsing(tech.id).filter((p) => p.slug !== excludeSlug);
+  const projects = others.map((p) => ({ slug: p.slug, title: p.title, tagline: p.tagline }));
+  let heading = "";
   if (others.length > 0) {
-    return `${excludeSlug ? "also used in" : "used in"}: ${others.map((p) => p.title).join(", ")}`;
+    heading = excludeSlug
+      ? `Also used in ${plural(others.length, "other project")}:`
+      : `Used in ${plural(others.length, "project")}:`;
+  } else if (excludeSlug) {
+    heading = "Only used in this project";
+  } else if (tech.source) {
+    heading = `From: ${tech.source}`;
   }
-  if (excludeSlug) return "only used in this project";
-  return tech.source ? `from: ${tech.source}` : "";
+  return { heading, projects };
+}
+
+/** The same tooltip as plain text, for screen-reader labels. Empty if there is nothing to say. */
+export function usedInText(tech: Technology, excludeSlug?: string): string {
+  const { heading, projects } = usedInDetails(tech, excludeSlug);
+  return [heading, ...projects.map((p) => `${p.title} – ${p.tagline}`)].join(" ").trim();
+}
+
+/** One-line version for search results: "Used in 2 projects: GLMS, StudyTrack". */
+export function usedInSummary(tech: Technology): string {
+  const projects = getProjectsUsing(tech.id);
+  if (projects.length > 0) {
+    return `Used in ${plural(projects.length, "project")}: ${projects.map((p) => p.title).join(", ")}`;
+  }
+  return tech.source ? `From: ${tech.source}` : "";
 }
 
 /** Technologies grouped by category, in the order the Skills section shows them. */

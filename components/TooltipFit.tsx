@@ -6,8 +6,9 @@ const GAP = 8; // keep tooltips at least 8px from the screen edge
 
 /**
  * Keeps hover tooltips on screen.
- * When a skill tag or periodic-table tile near the edge is hovered, focused or tapped,
- * this measures its tooltip and nudges it sideways so it isn't cut off.
+ * When a skill tag or periodic-table tile is hovered, focused or tapped, this measures
+ * its tooltip: if it would hide under the navbar it opens below the tag instead,
+ * and if it would run off the side it is nudged back in.
  * One listener on the whole page handles every tooltip (event delegation).
  */
 export default function TooltipFit() {
@@ -18,7 +19,14 @@ export default function TooltipFit() {
       const tip = owner?.querySelector<HTMLElement>(".skill-tip, .pt-tip");
       if (!tip) return;
 
-      tip.style.translate = ""; // measure from its normal position
+      // Measure from its normal position (above, centred)
+      tip.style.translate = "";
+      tip.classList.remove("tip-below");
+
+      // Not enough room above (hidden under the sticky navbar)? Open it below instead.
+      const navBottom = document.querySelector("header")?.getBoundingClientRect().bottom ?? 0;
+      if (tip.getBoundingClientRect().top < navBottom + GAP) tip.classList.add("tip-below");
+
       const rect = tip.getBoundingClientRect();
       const screen = document.documentElement.clientWidth;
       let shift = 0;
