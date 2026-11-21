@@ -8,6 +8,34 @@ import type { SearchIndex } from "@/lib/search";
 
 const suggestions = ["react", "docker", "azure", "kotlin", "offline", "tests"];
 
+/**
+ * Runs a search. Every word typed must appear somewhere in an item's text.
+ * Used for the real results AND the hover previews, so they always agree.
+ */
+function runSearch(index: SearchIndex, query: string) {
+  const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const matches = (text: string) => words.length > 0 && words.every((w) => text.includes(w));
+  const projects = index.projects.filter((p) => matches(p.text));
+  const skills = index.skills.filter((s) => matches(s.text));
+  const jobs = index.jobs.filter((j) => matches(j.text));
+  return { words, projects, skills, jobs, total: projects.length + skills.length + jobs.length };
+}
+
+const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+/** Hover preview for a suggestion chip: "finds 4 projects, 2 skills" plus the project names. */
+function previewFor(index: SearchIndex, term: string) {
+  const r = runSearch(index, term);
+  const parts = [
+    r.projects.length > 0 && count(r.projects.length, "project", "projects"),
+    r.skills.length > 0 && count(r.skills.length, "skill", "skills"),
+    r.jobs.length > 0 && count(r.jobs.length, "role", "roles"),
+  ].filter(Boolean);
+  const sentence = parts.length > 0 ? `Finds ${parts.join(", ")}` : "No results";
+  const names = (r.projects.length > 0 ? r.projects.map((p) => p.title) : r.skills.map((s) => s.name)).join(" · ");
+  return { sentence, names };
+}
+
 export default function SearchClient({ index }: { index: SearchIndex }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -21,14 +49,7 @@ export default function SearchClient({ index }: { index: SearchIndex }) {
     router.replace(q ? `${pathname}?q=${encodeURIComponent(q)}` : pathname, { scroll: false });
   };
 
-  // Every word typed must appear somewhere in an item's text.
-  const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-  const matches = (text: string) => words.length > 0 && words.every((w) => text.includes(w));
-
-  const projects = index.projects.filter((p) => matches(p.text));
-  const skills = index.skills.filter((s) => matches(s.text));
-  const jobs = index.jobs.filter((j) => matches(j.text));
-  const total = projects.length + skills.length + jobs.length;
+  const { words, projects, skills, jobs, total } = runSearch(index, query);
 
   const groupHeading = "mb-3 font-display text-base font-semibold text-accent";
   const row = "block border border-rule bg-surface transition-colors hover:border-accent";
@@ -52,13 +73,31 @@ export default function SearchClient({ index }: { index: SearchIndex }) {
         <div className="mt-6">
           <p className="mb-3 font-mono text-xs text-muted">try one of these</p>
           <ul className="flex flex-wrap gap-2">
-            {suggestions.map((s) => (
-              <li key={s}>
-                <button type="button" onClick={() => updateQuery(s)} className="skill-tag">
-                  {s}
-                </button>
-              </li>
-            ))}
+            {suggestions.map((s) => {
+              const preview = previewFor(index, s);
+              return (
+                <li key={s}>
+                  <button
+                    type="button"
+                    onClick={() => updateQuery(s)}
+                    aria-describedby={`suggest-tip-${s}`}
+                    className="skill-tag has-tip"
+                  >
+                    {s}
+                    {/* Same tooltip style as the skills and project filters */}
+                    <span id={`suggest-tip-${s}`} role="tooltip" className="skill-tip tip-under text-left font-sans">
+                      <span className="block">{preview.sentence}</span>
+                      {preview.names && (
+                        <span className="mt-1 block text-[11.5px] text-muted">
+                          <span className="sr-only">: </span>
+                          {preview.names}
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
       ) : (

@@ -17,7 +17,13 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="border-t border-rule py-20 md:py-24">
+    // Last section: tall enough (screen height minus the footer) that clicking "Contact"
+    // can scroll it right up under the navbar, like every other section
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="min-h-[calc(100svh-7.8rem)] border-t border-rule py-20 md:min-h-[calc(100svh-5.3rem)] md:py-24"
+    >
       <SectionHeading
         id="contact-heading"
         label="contact"

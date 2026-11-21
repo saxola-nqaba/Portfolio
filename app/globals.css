@@ -126,8 +126,15 @@ html {
   }
 }
 /* Stops the sticky nav bar from covering a section's heading after a jump */
+/* Where a section lands when you jump to it: just under the navbar, with the same
+   gap above its label as the hero has above "hi, i'm" (40px phone, 48px desktop) */
 section[id] {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 1.75rem;
+}
+@media (min-width: 768px) {
+  section[id] {
+    scroll-margin-top: 1.25rem;
+  }
 }
 
 /* ---------- Periodic table ---------- */
@@ -341,4 +348,10 @@ body {
 .has-tip:hover .skill-tip,
 .has-tip:focus-visible .skill-tip {
   opacity: 1;
+}
+
+/* Tooltips that always open below (search suggestions sit right under the search box) */
+.skill-tip.tip-under {
+  bottom: auto;
+  top: calc(100% + 8px);
 }

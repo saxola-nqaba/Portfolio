@@ -110,7 +110,7 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
           </Link>
 
           {/* Desktop links */}
-          <nav aria-label="Main" className="hidden md:block">
+          <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex gap-7 text-sm text-muted">
               {links.map((link) => (
                 <li key={link.id}>
@@ -158,7 +158,7 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((open) => !open)}
-            className="flex h-11 w-11 items-center justify-center text-muted transition-colors hover:text-ink md:hidden"
+            className="flex h-11 w-11 items-center justify-center text-muted transition-colors hover:text-ink lg:hidden"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
@@ -169,7 +169,7 @@ export default function Navbar({ name, role, cvPath }: NavbarProps) {
 
       {/* Phone menu */}
       {menuOpen && (
-        <nav id="mobile-menu" aria-label="Mobile" className="border-t border-rule md:hidden">
+        <nav id="mobile-menu" aria-label="Mobile" className="border-t border-rule lg:hidden">
           <ul className="flex flex-col px-6 py-2">
             {links.map((link) => (
               <li key={link.id}>
